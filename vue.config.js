@@ -1,16 +1,30 @@
 const path = require('path')
 
+// 按需引入 elementPlus 插件配置
+const AutoImport = require('unplugin-auto-import/webpack')
+const Components = require('unplugin-vue-components/webpack')
+const { ElementPlusResolver } = require('unplugin-vue-components/resolvers')
+
 module.exports = {
   // 在node的环境下执行 所以需要 CommonJS
   outputDir: './build',
   // 配置方式一
-  // configureWebpack: {
-  //   resolve: {
-  //     alias: {
-  //       views: '@/views'
-  //     }
-  //   }
-  // }
+  configureWebpack: {
+    resolve: {
+      alias: {
+        views: '@/views'
+      }
+    },
+    // 配置 plugins 按需引入elementPlus
+    plugins: [
+      AutoImport({
+        resolvers: [ElementPlusResolver()]
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()]
+      })
+    ]
+  }
   // 配置方式二
   // configureWebpack: (config) => {
   //   config.resolve.alias = {
@@ -19,9 +33,9 @@ module.exports = {
   //   }
   // },
   // 配置方式三
-  chainWebpack: (config) => {
-    config.resolve.alias
-      .set('@', path.resolve(__dirname, 'src'))
-      .set('views', '@/views')
-  }
+  // chainWebpack: (config) => {
+  //   config.resolve.alias
+  //     .set('@', path.resolve(__dirname, 'src'))
+  //     .set('views', '@/views')
+  // },
 }
