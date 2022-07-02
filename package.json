@@ -3,16 +3,19 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "serve": "vue-cli-service serve -mode development",
+    "test": "vue-cli-service serve -mode test",
+    "build": "vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "prettier": "prettier --write .",
     "prepare": "husky install",
     "commit": "cz"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "core-js": "^3.6.5",
     "element-plus": "^2.2.8",
+    "pushstate-server": "^3.1.0",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

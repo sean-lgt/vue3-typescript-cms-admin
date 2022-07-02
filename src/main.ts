@@ -4,6 +4,8 @@ import router from './router' //引入路由
 import store from './store' // 引入vuex
 // import ElementPlus from 'element-plus' //全局引入 elementPlus
 // import 'element-plus/dist/index.css' // 引入 elementPlus 样式
+// import './service/axios_demo'  //了解axios常规用法
+import commonReq from './service' //引入封装后的请求库
 
 import { registerElementComponent } from './global'
 
@@ -17,3 +19,42 @@ registerElementComponent(app)
 
 // .use(ElementPlus) 全局注册 ElementPlus
 app.use(store).use(router).mount('#app')
+
+// 测试axios封装
+commonReq.request({
+  url: '/home/multidata',
+  method: 'GET',
+  headers: {},
+  interceptors: {
+    requestInterceptor: (config) => {
+      console.log('单独请求的config')
+      if (config && config.headers) {
+        // 多一步判断 header 解决对象可能未定义
+        config.headers['token'] = '123'
+      }
+      // config.headers['token'] = '123'
+      return config
+    },
+    responseInterceptor: (res) => {
+      console.log('单独响应的response')
+      return res
+    }
+  }
+})
+
+interface DataType {
+  data: any
+  returnCode: string
+  success: boolean
+}
+
+commonReq
+  .get<DataType>({
+    url: '/home/multidata',
+    showLoading: false
+  })
+  .then((res) => {
+    console.log(res.data)
+    console.log(res.returnCode)
+    console.log(res.success)
+  })
