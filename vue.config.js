@@ -9,6 +9,19 @@ module.exports = {
   // 在node的环境下执行 所以需要 CommonJS
   outputDir: './dist',
   publicPath: './',
+  // 本地环境配置跨域
+  devServer: {
+    proxy: {
+      '^/api': {
+        target: 'http://152.136.185.210:5000', //代理地址
+        pathRewrite: {
+          //重新路径
+          '^/api': ''
+        },
+        changeOrigin: true
+      }
+    }
+  },
   // 配置方式一
   configureWebpack: {
     resolve: {
