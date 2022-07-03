@@ -7,7 +7,10 @@ import {
   ElAutocomplete,
   ElAvatar,
   ElBacktop,
-  ElBadge
+  ElBadge,
+  ElTabPane,
+  ElTabs,
+  ElCheckbox
 } from 'element-plus'
 
 export default function (app: App): void {
@@ -19,7 +22,10 @@ export default function (app: App): void {
     ElAutocomplete,
     ElAvatar,
     ElBacktop,
-    ElBadge
+    ElBadge,
+    ElTabPane,
+    ElTabs,
+    ElCheckbox
   ]
   for (const cpn of components) {
     app.component(cpn.name, cpn)
