@@ -39,7 +39,7 @@ export const requestUserInfoById = (id: number) => {
  */
 export const requestUserMenusByRoleId = (id: number) => {
   return commonReq.get<IDataType>({
-    url: loginAPI.UserMenus + id + 'menu',
+    url: loginAPI.UserMenus + id + '/menu',
     showLoading: false
   })
 }
