@@ -1,33 +1,53 @@
 import { App } from 'vue'
+import 'element-plus/dist/index.css'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import {
-  ElButton,
-  ElTable,
-  ElAlert,
   ElAside,
-  ElAutocomplete,
-  ElAvatar,
-  ElBacktop,
-  ElBadge,
+  ElButton,
+  ElCheckbox,
+  ElContainer,
+  ElForm,
+  ElFormItem,
+  ElHeader,
+  ElInput,
+  ElLink,
+  ElMain,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElRadio,
+  ElSubMenu,
   ElTabPane,
-  ElTabs,
-  ElCheckbox
+  ElTabs
 } from 'element-plus'
 
+const components = [
+  ElButton,
+  ElForm,
+  ElFormItem,
+  ElInput,
+  ElRadio,
+  ElTabs,
+  ElTabPane,
+  ElCheckbox,
+  ElLink,
+  ElContainer,
+  ElHeader,
+  ElMain,
+  ElAside,
+  ElMenu,
+  ElMenuItem,
+  ElMenuItemGroup,
+  ElSubMenu
+]
+
 export default function (app: App): void {
-  const components = [
-    ElButton,
-    ElTable,
-    ElAlert,
-    ElAside,
-    ElAutocomplete,
-    ElAvatar,
-    ElBacktop,
-    ElBadge,
-    ElTabPane,
-    ElTabs,
-    ElCheckbox
-  ]
-  for (const cpn of components) {
-    app.component(cpn.name, cpn)
+  for (const component of components) {
+    app.component(component.name, component)
+  }
+  for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+    app.component(key, component)
   }
 }
+
+// const app = createApp(App)
