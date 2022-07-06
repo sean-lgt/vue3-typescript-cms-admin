@@ -5,12 +5,12 @@
       :class="isFold ? 'el-icon-s-fold' : 'el-icon-s-unfold'"
       @click="handleFoldClick"
     ></i> -->
-    <el-icon
-      ><Fold v-if="!isFold" class="fold-menu" @click="handleFoldClick"
-    /></el-icon>
-    <el-icon
-      ><Expand v-if="isFold" class="fold-menu" @click="handleFoldClick"
-    /></el-icon>
+    <el-icon v-if="!isFold" size="22px">
+      <Fold class="fold-menu" @click="handleFoldClick" />
+    </el-icon>
+    <el-icon v-if="isFold" size="22px">
+      <Expand class="fold-menu" @click="handleFoldClick" />
+    </el-icon>
   </div>
 </template>
 

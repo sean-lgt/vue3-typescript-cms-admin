@@ -6,3 +6,10 @@ export const LOCAL_CACHE_KEY = {
   USER_INFO: 'user-info', //登录的用户信息
   USRE_MENUS: 'user-menus' //当前的用户菜单
 }
+
+export const ELEMENT_PLUS_ICON_COMPONENTS = {
+  'el-icon-monitor': 'Monitor',
+  'el-icon-setting': 'Setting',
+  'el-icon-goods': 'Goods',
+  'el-icon-chat-line-round': 'ChatLineRound'
+}

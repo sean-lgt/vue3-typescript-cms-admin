@@ -1,6 +1,6 @@
 <template>
   <div class="nav-menu">
-    <div class="logo">
+    <div class="logo" :class="collapse ? 'flex-center' : ''">
       <img src="~@/assets/img/logo.svg" alt="logo" class="img" />
       <span v-if="!collapse" class="title">Vue3+TS</span>
     </div>
@@ -19,13 +19,23 @@
           <el-sub-menu :index="item.id + ''">
             <!-- 需要使用具名插槽样式才不会乱 -->
             <template #title>
-              <i v-if="item.icon" :class="item.icon"></i>
+              <!-- 使用icon动态加载-->
+              <component
+                :is="item.ele_icon"
+                style="width: 18px; height: 18px; margin-right: 3px"
+              ></component>
+              <!-- <i v-if="item.icon" :class="item.icon"></i> -->
               <span>{{ item.name }}</span>
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
               <el-menu-item :index="subitem.id + ''">
-                <i v-if="subitem.icon" :class="subitem.icon"></i>
+                <!-- <i v-if="subitem.icon" :class="subitem.icon"></i> -->
+                <component
+                  v-if="subitem.icon"
+                  :is="subitem.ele_icon"
+                  style="width: 18px; height: 18px; margin-right: 3px"
+                ></component>
                 <span>{{ subitem.name }}</span>
               </el-menu-item>
             </template>
@@ -34,7 +44,12 @@
         <!-- 一级菜单 -->
         <template v-else-if="item.type === 2">
           <el-menu-item :index="item.id + ''">
-            <i v-if="item.icon" :class="item.icon"></i>
+            <!-- <i v-if="item.icon" :class="item.icon"></i> -->
+            <component
+              v-if="item.icon"
+              :is="item.ele_icon"
+              style="width: 18px; height: 18px; margin-right: 3px"
+            ></component>
             <span>{{ item.name }}</span>
           </el-menu-item>
         </template>
@@ -61,6 +76,7 @@ export default defineComponent({
     const store = useStore()
     // 利用计算属性获取store中的菜单列表信息
     const userMenus = computed(() => store.state.login.userMenus)
+    console.log('🚀【获取到菜单】', userMenus)
     return {
       userMenus
     }
@@ -79,7 +95,6 @@ export default defineComponent({
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-
     .img {
       height: 100%;
       margin: 0 10px;
@@ -90,6 +105,9 @@ export default defineComponent({
       font-weight: 700;
       color: white;
     }
+  }
+  .logo.flex-center {
+    justify-content: center;
   }
   .el-menu {
     border-right: none;

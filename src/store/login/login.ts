@@ -7,7 +7,7 @@ import {
 } from '@/service/login/login'
 
 import localCache from '@/utils/cache'
-import { LOCAL_CACHE_KEY } from '@/utils/const'
+import { LOCAL_CACHE_KEY, ELEMENT_PLUS_ICON_COMPONENTS } from '@/utils/const'
 
 import router from '@/router'
 
@@ -54,6 +54,10 @@ const loginModule: Module<ILoginState, IRootState> = {
       // 请求用户菜单
       const userMenusResult = await requestUserMenusByRoleId(userInfo.role.id)
       const userMenus = userMenusResult.data
+      // 做一层映射 icon -> ele-icon vue3中不再通过类名
+      userMenus.forEach((element: any) => {
+        element['ele_icon'] = ELEMENT_PLUS_ICON_COMPONENTS[element.icon]
+      })
       commit('changeUserMenus', userMenus)
       localCache.setCache(LOCAL_CACHE_KEY.USRE_MENUS, userMenus)
 
