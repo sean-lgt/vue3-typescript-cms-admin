@@ -5,7 +5,7 @@
       <span v-if="!collapse" class="title">Vue3+TS</span>
     </div>
     <el-menu
-      default-active="2"
+      :default-active="defaultValue"
       class="el-menu-vertical"
       :collapse="collapse"
       background-color="#0c2135"
@@ -62,12 +62,13 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent } from 'vue'
+import { computed, defineComponent, ref } from 'vue'
 // 由于vuex中对ts的使用没那么方便，所以自定义hooks来更好的搭配ts
 // vuex -> 对 TypeScript 不太友好 --> pinia
 import { useStore } from '@/store'
 
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import { pathMapToMenu } from '@/utils/map-menus'
 
 export default defineComponent({
   props: {
@@ -84,16 +85,21 @@ export default defineComponent({
     // console.log('🚀【获取到菜单】', userMenus)
 
     const router = useRouter()
+    const route = useRoute()
+    const currentPath = route.path
+
+    const menu = pathMapToMenu(userMenus.value, currentPath)
+    let defaultValue = ref(menu.id + '')
 
     const handleMenuItemClick = (item: any) => {
-      console.log('--------')
       router.push({
         path: item.url ?? '/not-found'
       })
     }
     return {
       userMenus,
-      handleMenuItemClick
+      handleMenuItemClick,
+      defaultValue
     }
   }
 })

@@ -2,6 +2,7 @@ import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
 
 import localCache from '@/utils/cache'
 import { LOCAL_CACHE_KEY } from '@/utils/const'
+import { firstMenu } from '@/utils/map-menus'
 
 //   createWebHistory,
 const routes: RouteRecordRaw[] = [
@@ -52,6 +53,10 @@ router.beforeEach((to) => {
   //     to.name = 'user'
   //   }
   // }
+  // 进行重定向
+  if (to.path === '/main') {
+    return firstMenu.url
+  }
 })
 
 export default router
