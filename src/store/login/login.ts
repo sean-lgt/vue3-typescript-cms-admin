@@ -9,6 +9,7 @@ import {
 import localCache from '@/utils/cache'
 import { LOCAL_CACHE_KEY, ELEMENT_PLUS_ICON_COMPONENTS } from '@/utils/const'
 
+import { mapMenusToRoutes } from '@/utils/map-menus'
 import router from '@/router'
 
 import { IAccount } from '@/service/login/type'
@@ -34,6 +35,15 @@ const loginModule: Module<ILoginState, IRootState> = {
     },
     changeUserMenus(state, userMenus: any) {
       state.userMenus = userMenus
+      // 动态注册路由
+      // userMenus => routes
+      const routes = mapMenusToRoutes(userMenus)
+      // 将routes => router.main.children
+      routes.forEach((route) => {
+        // Tips: 注意  路由定义需要填写name，这里在指定的name 中添加路由
+        router.addRoute('main', route)
+      })
+      console.log('🚀【所有路由】', router)
     }
   },
   actions: {

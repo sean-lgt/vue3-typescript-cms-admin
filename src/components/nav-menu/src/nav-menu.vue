@@ -29,7 +29,10 @@
             </template>
             <!-- 遍历里面的item -->
             <template v-for="subitem in item.children" :key="subitem.id">
-              <el-menu-item :index="subitem.id + ''">
+              <el-menu-item
+                :index="subitem.id + ''"
+                @click="handleMenuItemClick(subitem)"
+              >
                 <!-- <i v-if="subitem.icon" :class="subitem.icon"></i> -->
                 <component
                   v-if="subitem.icon"
@@ -64,6 +67,8 @@ import { computed, defineComponent } from 'vue'
 // vuex -> 对 TypeScript 不太友好 --> pinia
 import { useStore } from '@/store'
 
+import { useRouter } from 'vue-router'
+
 export default defineComponent({
   props: {
     collapse: {
@@ -76,9 +81,19 @@ export default defineComponent({
     const store = useStore()
     // 利用计算属性获取store中的菜单列表信息
     const userMenus = computed(() => store.state.login.userMenus)
-    console.log('🚀【获取到菜单】', userMenus)
+    // console.log('🚀【获取到菜单】', userMenus)
+
+    const router = useRouter()
+
+    const handleMenuItemClick = (item: any) => {
+      console.log('--------')
+      router.push({
+        path: item.url ?? '/not-found'
+      })
+    }
     return {
-      userMenus
+      userMenus,
+      handleMenuItemClick
     }
   }
 })
@@ -87,7 +102,7 @@ export default defineComponent({
 <style scoped lang="less">
 .nav-menu {
   height: 100%;
-  background-color: #001529;
+  background-color: #0c2135;
   .logo {
     display: flex;
     height: 28px;

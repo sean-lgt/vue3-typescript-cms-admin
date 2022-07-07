@@ -11,13 +11,20 @@ const routes: RouteRecordRaw[] = [
   },
   {
     path: '/login',
+    name: 'login',
     component: () =>
       import(/* webpackChunkName: "login" */ '@/views/login/login.vue')
   },
   {
     path: '/main',
+    name: 'main',
     component: () =>
       import(/* webpackChunkName: "main" */ '@/views/main/main.vue')
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    name: 'notFound',
+    component: () => import('@/views/not-found/not-found.vue')
   }
 ]
 
@@ -29,6 +36,7 @@ const router = createRouter({
 
 // 全局路由拦截
 router.beforeEach((to) => {
+  console.log('测试', router)
   if (to.path !== '/login') {
     const token = localCache.getCache(LOCAL_CACHE_KEY.TOKEN) //登录token
     if (!token) {
@@ -36,6 +44,14 @@ router.beforeEach((to) => {
       return '/login'
     }
   }
+  console.log(router.getRoutes())
+  console.log(to)
+
+  // if (to.path.indexOf('/main') !== -1) {
+  //   if (to.name === 'notFound') {
+  //     to.name = 'user'
+  //   }
+  // }
 })
 
 export default router
