@@ -1,4 +1,3 @@
-import menu from '@/router/main/system/menu/menu'
 import { RouteRecordRaw } from 'vue-router'
 
 /**
