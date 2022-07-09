@@ -8,7 +8,7 @@ import { setupStore } from './store'
 // import './service/axios_demo'  //了解axios常规用法
 // import commonReq from './service' //引入封装后的请求库
 
-import { registerElementComponent } from './global'
+import { registerElementComponent, registerPropertiesToVue } from './global'
 
 import 'normalize.css' //重置默认css
 import './assets/css/index.less' //初始化项目css
@@ -20,6 +20,8 @@ const app: App = createApp(rootApp)
 
 // 全局注册部分elementPlus组件
 registerElementComponent(app)
+// 注册全局属性
+registerPropertiesToVue(app)
 
 // 初始化store
 setupStore()
