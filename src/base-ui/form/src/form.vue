@@ -22,6 +22,7 @@
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
                   v-model="formData[`${item.field}`]"
+                  autocomplete="off"
                 ></el-input>
               </template>
               <!-- 下拉选中框 -->
