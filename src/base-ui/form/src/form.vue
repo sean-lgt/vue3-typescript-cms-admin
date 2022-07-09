@@ -1,5 +1,9 @@
 <template>
   <div class="custom-form">
+    <div class="header">
+      <!-- 提供插槽能力 -->
+      <slot name="header"></slot>
+    </div>
     <el-form :label-width="labelWidth">
       <el-row>
         <template v-for="item in formItems" :key="item.label">
@@ -17,6 +21,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   :show-password="item.type === 'password'"
+                  v-model="formData[`${item.field}`]"
                 ></el-input>
               </template>
               <!-- 下拉选中框 -->
@@ -25,6 +30,7 @@
                   :placeholder="item.placeholder"
                   v-bind="item.otherOptions"
                   style="width: 100%"
+                  v-model="formData[`${item.field}`]"
                 >
                   <el-option
                     v-for="option in item.options"
@@ -40,6 +46,7 @@
                 <el-date-picker
                   style="width: 100%"
                   v-bind="item.otherOptions"
+                  v-model="formData[`${item.field}`]"
                 ></el-date-picker>
               </template>
             </el-form-item>
@@ -47,15 +54,23 @@
         </template>
       </el-row>
     </el-form>
+    <div class="footer">
+      <slot name="footer"></slot>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue'
+import { defineComponent, PropType, ref, watch } from 'vue'
 import { IFormItem } from '../types'
 
 export default defineComponent({
   props: {
+    // v-model 双向数据绑定接收的值
+    modelValue: {
+      type: Object,
+      required: true
+    },
     formItems: {
       type: Array as PropType<IFormItem[]>,
       default: () => []
@@ -79,8 +94,27 @@ export default defineComponent({
       })
     }
   },
-  setup() {
-    return {}
+  // v-model双向数据绑定更改的值
+  emits: ['update:modelValue'],
+  setup(props, { emit }) {
+    const formData = ref({ ...props.modelValue }) //对传进来的数据进行浅拷贝，确保单项数据流规则
+
+    // 通过统计fromData的数据变化，emit 通知父组件
+    watch(
+      formData,
+      (newValue) => {
+        console.log('formData 发生改变', newValue)
+        // emit 通知父组件更改  确保单项数据流
+        emit('update:modelValue', newValue)
+      },
+      {
+        deep: true // 深度监听
+      }
+    )
+
+    return {
+      formData
+    }
   }
 })
 </script>
