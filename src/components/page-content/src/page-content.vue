@@ -57,13 +57,18 @@ export default defineComponent({
   setup(props) {
     const store = useStore()
 
-    store.dispatch('system/getPageListAction', {
-      pageName: props.pageName,
-      queryInfo: {
-        offset: 0,
-        size: 10
-      }
-    })
+    const getPageData = (queryInfo?: any) => {
+      store.dispatch('system/getPageListAction', {
+        pageName: props.pageName,
+        queryInfo: {
+          offset: 0,
+          size: 10,
+          ...queryInfo
+        }
+      })
+    }
+
+    getPageData()
 
     // 通过getters动态获取相对应的值 返回一个函数 传pagename
     const dataList = computed(() =>
@@ -73,7 +78,8 @@ export default defineComponent({
     // const userCount = computed(()=>store.state.system.userCount)
 
     return {
-      dataList
+      dataList,
+      getPageData
     }
   }
 })
