@@ -87,7 +87,7 @@ export default defineComponent({
     const isQuery = usePermission(props.pageName, 'query')
 
     // 双向绑定pageInfo
-    const pageInfo = ref({ currentPage: 0, pageSize: 10 })
+    const pageInfo = ref({ currentPage: 1, pageSize: 10 })
     // 监听pageInfo改变 重新请求数据
     watch(pageInfo, () => getPageData())
 
@@ -96,7 +96,7 @@ export default defineComponent({
       store.dispatch('system/getPageListAction', {
         pageName: props.pageName,
         queryInfo: {
-          offset: pageInfo.value.currentPage * pageInfo.value.pageSize,
+          offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
           size: pageInfo.value.pageSize,
           ...queryInfo
         }
