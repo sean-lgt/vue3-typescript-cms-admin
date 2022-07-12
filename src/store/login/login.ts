@@ -9,7 +9,7 @@ import {
 import localCache from '@/utils/cache'
 import { LOCAL_CACHE_KEY, ELEMENT_PLUS_ICON_COMPONENTS } from '@/utils/const'
 
-import { mapMenusToRoutes } from '@/utils/map-menus'
+import { mapMenusToRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 import router from '@/router'
 
 import { IAccount } from '@/service/login/type'
@@ -22,7 +22,8 @@ const loginModule: Module<ILoginState, IRootState> = {
     return {
       token: '',
       userInfo: [],
-      userMenus: []
+      userMenus: [],
+      permissions: []
     }
   },
   getters: {},
@@ -44,6 +45,9 @@ const loginModule: Module<ILoginState, IRootState> = {
         router.addRoute('main', route)
       })
       console.log('🚀【所有路由】', router)
+      // 获取用户按钮的权限
+      const permissions = mapMenusToPermissions(userMenus)
+      state.permissions = permissions
     }
   },
   actions: {
