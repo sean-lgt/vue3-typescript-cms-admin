@@ -2,6 +2,7 @@
   <div class="page-content">
     <custom-table
       :listData="dataList"
+      :listCount="dataCount"
       v-bind="contentTableConfig"
       v-model:page="pageInfo"
     >
@@ -113,6 +114,8 @@ export default defineComponent({
     const dataCount = computed(() =>
       store.getters[`system/pageListCount`](props.pageName)
     )
+
+    console.log('🚀【ceshi】', dataCount)
 
     // 4.获取其他的动态插槽名称
     const otherPropSlots = props.contentTableConfig?.propList.filter(
