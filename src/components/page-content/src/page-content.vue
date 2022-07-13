@@ -8,9 +8,14 @@
     >
       <!-- 1.header中的插槽 -->
       <template #headerHandler>
-        <el-button v-if="isCreate" type="primary" size="medium"
-          >新建用户</el-button
+        <el-button
+          v-if="isCreate"
+          type="primary"
+          size="medium"
+          @click="handleNewClick"
         >
+          新建用户
+        </el-button>
       </template>
 
       <!-- 2.列中的插槽 -->
@@ -29,12 +34,22 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #handler>
+      <template #handler="scope">
         <div class="handle-btns">
-          <el-button v-if="isUpdate" icon="EditPen" size="mini" type="text"
+          <el-button
+            v-if="isUpdate"
+            icon="EditPen"
+            size="mini"
+            type="text"
+            @click="handleEditClick(scope.row)"
             >编辑</el-button
           >
-          <el-button v-if="isDelete" icon="Delete" size="mini" type="text"
+          <el-button
+            v-if="isDelete"
+            icon="Delete"
+            size="mini"
+            type="text"
+            @click="handleDeleteClick(scope.row)"
             >删除</el-button
           >
         </div>
@@ -60,6 +75,7 @@ import { useStore } from '@/store'
 import { usePermission } from '@/hooks/use-permission'
 
 import CustomTable from '@/base-ui/table'
+import { emit } from 'process'
 
 export default defineComponent({
   components: {
@@ -77,7 +93,8 @@ export default defineComponent({
       required: true
     }
   },
-  setup(props) {
+  emits: ['newBtnClick', 'editBtnClick'],
+  setup(props, { emit }) {
     const store = useStore()
 
     // 获取操作的权限
@@ -115,8 +132,6 @@ export default defineComponent({
       store.getters[`system/pageListCount`](props.pageName)
     )
 
-    console.log('🚀【ceshi】', dataCount)
-
     // 4.获取其他的动态插槽名称
     const otherPropSlots = props.contentTableConfig?.propList.filter(
       (item: any) => {
@@ -128,6 +143,23 @@ export default defineComponent({
       }
     )
 
+    // 5.删除/编辑/新建操作
+    const handleDeleteClick = (item: any) => {
+      console.log(item)
+      store.dispatch('system/deletePageDataAction', {
+        pageName: props.pageName,
+        id: item.id
+      })
+    }
+
+    const handleNewClick = () => {
+      emit('newBtnClick')
+    }
+
+    const handleEditClick = (item: any) => {
+      emit('editBtnClick', item)
+    }
+
     return {
       dataList,
       getPageData,
@@ -136,7 +168,10 @@ export default defineComponent({
       otherPropSlots,
       isCreate,
       isUpdate,
-      isDelete
+      isDelete,
+      handleDeleteClick,
+      handleNewClick,
+      handleEditClick
     }
   }
 })

@@ -9,6 +9,7 @@
         <template v-for="item in formItems" :key="item.label">
           <el-col v-bind="colLayout">
             <el-form-item
+              v-if="!item.isHidden"
               :label="item.label"
               :rules="item.rules"
               :style="itemStyle"
@@ -23,6 +24,7 @@
                   :show-password="item.type === 'password'"
                   v-model="formData[`${item.field}`]"
                   autocomplete="off"
+                  auto-complete="new-password"
                 ></el-input>
               </template>
               <!-- 下拉选中框 -->
