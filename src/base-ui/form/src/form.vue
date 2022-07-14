@@ -25,6 +25,8 @@
                   v-model="formData[`${item.field}`]"
                   autocomplete="off"
                   auto-complete="new-password"
+                  readonly
+                  onfocus="this.removeAttribute('readonly')"
                 ></el-input>
               </template>
               <!-- 下拉选中框 -->
