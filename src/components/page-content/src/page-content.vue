@@ -75,7 +75,6 @@ import { useStore } from '@/store'
 import { usePermission } from '@/hooks/use-permission'
 
 import CustomTable from '@/base-ui/table'
-import { emit } from 'process'
 
 export default defineComponent({
   components: {
