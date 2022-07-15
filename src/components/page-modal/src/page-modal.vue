@@ -8,6 +8,8 @@
       destroy-on-close
     >
       <custom-form v-bind="modalConfig" v-model="formData"></custom-form>
+      <!-- 提供插槽 -->
+      <slot></slot>
       <template #footer>
         <span class="dialog-footer">
           <el-button @click="dialogVisible = false">取 消</el-button>
@@ -36,6 +38,10 @@ export default defineComponent({
       required: true
     },
     defaultInfo: {
+      type: Object,
+      default: () => ({})
+    },
+    otherInfo: {
       type: Object,
       default: () => ({})
     },
@@ -69,7 +75,7 @@ export default defineComponent({
         console.log('🚀【此时是编辑用户数据】')
         store.dispatch('system/editPageDataAction', {
           pageName: props.pageName,
-          editData: { ...formData.value },
+          editData: { ...formData.value, ...props.otherInfo },
           id: props.defaultInfo.id
         })
       } else {
@@ -77,7 +83,7 @@ export default defineComponent({
         console.log('🚀【此时是新建用户操作】')
         store.dispatch('system/createPageDataAction', {
           pageName: props.pageName,
-          newData: { ...formData.value }
+          newData: { ...formData.value, ...props.otherInfo }
         })
       }
     }

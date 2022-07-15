@@ -144,5 +144,24 @@ export function mapMenusToPermissions(userMenus: any[]) {
   return permissions
 }
 
+// 菜单映射叶子节点key值
+export function menuMapLeafKeys(menuList: any[]) {
+  const leftKeys: number[] = []
+
+  const _recurseGetLeaf = (menuList: any[]) => {
+    for (const menu of menuList) {
+      if (menu.children) {
+        // 如果有子节点则递归调用
+        _recurseGetLeaf(menu.children)
+      } else {
+        leftKeys.push(menu.id)
+      }
+    }
+  }
+  _recurseGetLeaf(menuList)
+
+  return leftKeys
+}
+
 // 导出第一个菜单信息
 export { firstMenu }
