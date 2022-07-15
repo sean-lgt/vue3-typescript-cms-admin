@@ -52,12 +52,15 @@ const loginModule: Module<ILoginState, IRootState> = {
   },
   actions: {
     // 账号登录操作
-    async accountLoginAction({ commit }, payload: IAccount) {
+    async accountLoginAction({ commit, dispatch }, payload: IAccount) {
       // 实现登录逻辑
       const loginResult = await accountLoginRequest(payload)
       const { id, token } = loginResult.data
       commit('changeToken', token)
       localCache.setCache(LOCAL_CACHE_KEY.TOKEN, token)
+
+      // 发送初始化的请求(完整的role/department)  此时确保已经获取了token
+      dispatch('getInitialDataAction', null, { root: true })
 
       // 请求用户信息
       const userInfoResult = await requestUserInfoById(id)
@@ -79,10 +82,12 @@ const loginModule: Module<ILoginState, IRootState> = {
       router.push('/main')
     },
     // 保持登录态，对vuex登录数据进行持久化处理
-    loadLocalLogin({ commit }) {
+    loadLocalLogin({ commit, dispatch }) {
       const token = localCache.getCache(LOCAL_CACHE_KEY.TOKEN)
       if (token) {
         commit('changeToken', token)
+        // 发送初始化的请求(完整的role/department)
+        dispatch('getInitialDataAction', null, { root: true })
       }
       const userInfo = localCache.getCache(LOCAL_CACHE_KEY.USER_INFO)
       if (userInfo) {

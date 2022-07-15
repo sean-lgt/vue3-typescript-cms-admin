@@ -54,7 +54,7 @@ const store = createStore<IRootState>({
  */
 export const setupStore = () => {
   store.dispatch('login/loadLocalLogin')
-  store.dispatch('getInitialDataAction')
+  // store.dispatch('getInitialDataAction')  //此时可能token还未获取到
 }
 
 // 自定义hooks 为了更好的使用vuex+ts
