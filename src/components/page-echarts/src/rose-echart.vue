@@ -4,14 +4,13 @@
   </div>
 </template>
 
-<script setup lang="ts">
-import { computed, defineProps } from 'vue'
+<script lang="ts" setup>
+import { defineProps, computed } from 'vue'
 import BaseEchart from '@/base-ui/echart'
-
-import { IDataType } from '../types'
+import { IPieEchartData } from '../types'
 
 const props = defineProps<{
-  roseData: IDataType[]
+  roseData: IPieEchartData[]
 }>()
 
 const options = computed(() => {
@@ -25,21 +24,27 @@ const options = computed(() => {
         saveAsImage: { show: true }
       }
     },
+    tooltip: {
+      trigger: 'item'
+    },
     series: [
       {
-        name: '类别数据',
+        name: '访问来源',
         type: 'pie',
-        radius: [10, 100],
+        radius: [10, 160],
         center: ['50%', '50%'],
         roseType: 'area',
         itemStyle: {
           borderRadius: 8
         },
-        data: props.roseData
+        data: props.roseData,
+        label: {
+          show: false
+        }
       }
     ]
   }
 })
 </script>
 
-<style scoped></style>
+<style lang="less" scoped></style>
