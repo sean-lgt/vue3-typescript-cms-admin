@@ -10,6 +10,7 @@
     <page-modal
       ref="pageModalRef"
       :defaultInfo="defaultInfo"
+      :otherInfo="otherInfo"
       :modalConfig="modalConfig"
       pageName="role"
     >
