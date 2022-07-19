@@ -1,22 +1,37 @@
 <template>
   <div class="user-info">
-    <el-dropdown>
-      <span class="el-dropdown-link">
-        <el-avatar
-          size="small"
-          src="https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png"
-        ></el-avatar>
-        <span>{{ name }}</span>
-      </span>
-      <template #dropdown>
-        <el-dropdown-item icon="CircleClose" @click="handleExitClick">
-          退出登录
-        </el-dropdown-item>
-        <!-- divided 显示分隔符 -->
-        <el-dropdown-item divided>用户信息</el-dropdown-item>
-        <el-dropdown-item>系统管理</el-dropdown-item>
-      </template>
-    </el-dropdown>
+    <div class="info">
+      <el-dropdown>
+        <span class="el-dropdown-link">
+          <!-- <img src="../../../assets/img/avatar.png" /> -->
+          <el-avatar size="default" class="avatar" :src="avatarImg"></el-avatar>
+          <!-- https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png -->
+          <span class="name">{{ name }}</span>
+        </span>
+        <template #dropdown>
+          <el-dropdown-item icon="CircleClose" @click="handleExitClick">
+            退出登录
+          </el-dropdown-item>
+          <!-- divided 显示分隔符 -->
+          <el-dropdown-item icon="InfoFilled" divided
+            >用户信息</el-dropdown-item
+          >
+          <el-dropdown-item icon="Unlock">修改密码</el-dropdown-item>
+        </template>
+      </el-dropdown>
+    </div>
+    <div class="operation">
+      <div class="item">
+        <el-icon><Bell /></el-icon>
+      </div>
+      <div class="item">
+        <el-icon><ChatDotRound /></el-icon>
+      </div>
+      <div class="item">
+        <span class="dot"></span>
+        <el-icon><Postcard /></el-icon>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +43,7 @@ import { useStore } from '@/store'
 import localCache from '@/utils/cache'
 
 import { ElMessageBox } from 'element-plus'
+import avatarImg from '@/assets/img/avatar.png'
 
 export default defineComponent({
   setup() {
@@ -49,16 +65,62 @@ export default defineComponent({
 
     return {
       name,
-      handleExitClick
+      handleExitClick,
+      avatarImg
     }
   }
 })
 </script>
 
-<style scoped>
-.el-dropdown-link {
-  cursor: pointer;
+<style scoped lang="less">
+.user-info {
   display: flex;
+  flex-direction: row-reverse;
   align-items: center;
+  .el-dropdown-link {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+
+    .avatar {
+      width: 30px;
+      height: 30px;
+    }
+    .name {
+      margin-left: 8px;
+    }
+  }
+  .operation {
+    margin-right: 20px;
+    display: flex;
+    .item {
+      position: relative;
+      // display: inline-block;
+      width: 40px;
+      height: 35px;
+      line-height: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      &:hover {
+        background: #f2f2f2;
+      }
+
+      i {
+        font-size: 20px;
+      }
+
+      .dot {
+        position: absolute;
+        top: 3px;
+        right: 3px;
+        z-index: 10;
+        width: 6px;
+        height: 6px;
+        background: red;
+        border-radius: 100%;
+      }
+    }
+  }
 }
 </style>
