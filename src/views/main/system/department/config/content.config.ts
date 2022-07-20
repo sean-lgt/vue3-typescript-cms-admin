@@ -1,5 +1,6 @@
 export const contentTableConfig = {
   title: '部门列表',
+  newBtnTitle: '新建部门',
   propList: [
     { prop: 'name', label: '部门名称', minWidth: '120' },
     { prop: 'leader', label: '部门领导', minWidth: '120' },
